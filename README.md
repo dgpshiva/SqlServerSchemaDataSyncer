@@ -48,3 +48,6 @@ This repository contains code that can be used to sync the schema and data betwe
 
 ## References
 - [SQL Server Data Tools Team Blog](http://blogs.msdn.com/b/ssdt/archive/2014/07/15/msbuild-support-for-schema-compare-is-available.aspx)
+
+
+![Alt Text](./SQLServerSchemaDataSyncer.gif)
