@@ -28,14 +28,14 @@ scriptLogFile.write("Start time: " + currDateTime + "\n\n")
 schemaUpateScriptName = "SqlServerDataCompareUpdate.bat"
 tableDiffLoc = "C:\\Program Files\\Microsoft SQL Server\\110\\COM"
 sqlCmdLoc = "C:\\Program Files\\Microsoft SQL Server\\110\\Tools\\Binn"
-sourceServer = "localhost"
-sourceDBName = "iFind_Demo_UnitTest"
-targetServer = "localhost"
-targetDBName = "UDWStaging"
+sourceServer = "<source_server_name>"
+sourceDBName = "<source_db_name>"
+targetServer = "<target_server_name>"
+targetDBName = "<target_db_name>"
 scriptLogFile.write("Initial settings:\n\n")
 scriptLogFile.write("Schema Update Script Name: "+schemaUpateScriptName+"\n")
 scriptLogFile.write("tablediff.exe location: "+tableDiffLoc+"\n")
-scriptLogFile.write("splcmd.exe location: "+sqlCmdLoc+"\n")
+scriptLogFile.write("sqlcmd.exe location: "+sqlCmdLoc+"\n")
 scriptLogFile.write("Source server: "+sourceServer+"\n")
 scriptLogFile.write("Source Database: "+sourceDBName+"\n")
 scriptLogFile.write("Target server: "+targetServer+"\n")
@@ -72,7 +72,7 @@ if not os.path.exists(scriptLoc+"\\"+schemaUpateScriptName):
 	sys.exit()
 s = subprocess.Popen(scriptLoc+"\\"+schemaUpateScriptName+" "+schemaUpdateReportFileName+" "+schemaUpdateLogFileName, shell=True, stdout=subprocess.PIPE)
 stdout, stderr = s.communicate()
-scriptLogFile.write(schemaUpateScriptName+" has been executed! Check " + schemaUpdateLogFileName + " logs to verify all went well.\n\n")
+scriptLogFile.write(schemaUpateScriptName+" has been executed!\nCheck " + schemaUpdateLogFileName + " logs to verify all went well.\n\n")
 
 
 # Data Compare and Update
@@ -129,7 +129,7 @@ if p.returncode == 0:
 	tableDiffScriptStatus = "Success"
 else:
 	tableDiffScriptStatus = "Fail"
-	scriptLogFile.write("Diff for one or more tables might not have executed properly.\n Check " + dataCompareLogBkpLoc + "logs for details.\n\n")
+	scriptLogFile.write("Diff for one or more tables might not have executed properly.\nCheck " + dataCompareLogBkpLoc + " logs for details.\n\n")
 
 # Backing up Log files
 for entry in scandir(dataCompareLogBkpLoc):
@@ -180,7 +180,7 @@ if q.returncode == 0:
 	dataUpdateScriptStatus = "Success"
 else:
 	dataUpdateScriptStatus = "Fail"
-	scriptLogFile.write("One or more table data might not have updated properly\nCheck " + dataUpdateLogBkpLoc + "logs for details.\n\n")
+	scriptLogFile.write("One or more table data might not have updated properly\nCheck " + dataUpdateLogBkpLoc + " logs for details.\n\n")
 
 # Re-enabling constraints on the tables
 for row in DBcursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG= ? AND TABLE_TYPE='BASE TABLE'", targetDBName):
